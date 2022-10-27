@@ -1,0 +1,6 @@
+logging # Логирование
+requests==2.28.1 # HTTP Запросы
+datetime from datetime # Работа с временем
+time # Полезные методы(Задержка на определенное количестве времени и т.п.)
+enlighten==1.11.1 # Для грамотного вывода progress bar в log 
+

@@ -1,9 +1,11 @@
+from itertools import count
 from pprint import pprint
 import requests
 from datetime import datetime
 import logging
 import enlighten
 import time
+import json
 
 class VKUser:
     """Действия с API VK"""
@@ -13,12 +15,13 @@ class VKUser:
                         format = "%(asctime)s %(levelname)s %(message)s",
                         encoding = 'utf-8')
 
-    def __init__(self, id, token): # В инициализации прописаны обязательные параметры, показан ID и token, которые нужны для работы во многих методах класса
+    def __init__(self, id, token, count): # В инициализации прописаны обязательные параметры, показан ID и token, которые нужны для работы во многих методах класса
         self.token = token
         self.id = id
         self.params = {'access_token': self.token,
                        'v': '5.131'}
         self.url = 'https://api.vk.com/method/' 
+        self.count = count
 
     def filter_photo(self, json): # Больший формат из всех всегда лежит последним в списке, поэтому просто берем элемент с индексом -1
         logging.info('VK. Data has sent for filtering')
@@ -33,13 +36,13 @@ class VKUser:
             pbar.update()
         return json
 
-    def get_photos(self): # Метод выполняет основную задачу: выполняет запрос методом GET и получает json с необходимой информацией
+    def get_photos(self,): # Метод выполняет основную задачу: выполняет запрос методом GET и получает json с необходимой информацией
         logging.info('VK. Function for getting photos has activated.')
         photos_url = self.url + 'photos.get'
         logging.info('VK. Request URL was received.')
         photos_params = {'owner_id': self.id,  
                        'album_id': 'profile',
-                       'count': '5',
+                       'count': self.count,
                        'extended': 1}
         logging.info('VK. Params have generated.')
         response=requests.get(photos_url, params = {**self.params, **photos_params}).json()
@@ -47,13 +50,13 @@ class VKUser:
         self.filter_photo(response) # Вызываем метод класса для того, чтобы оставить только самый большой формат фотографии
         return response
         
-    def output(self): # Метод служит для вывода пользователю результата запроса в виде словаря, в котором прописано имя, размер и при необходимости дата
+    def outputting_file(self): # Метод служит для вывода пользователю результата запроса в виде словаря, в котором прописано имя, размер и при необходимости дата
         try:
             logging.info('VK. First function has activated. Token and ID were initialed.')
             result = self.get_photos()['response']['items'] # Берется json по основному методу get_photos
             list_photos = []
             manager = enlighten.get_manager()
-            pbar = manager.counter(total=100, desc='Ti', unit='ticks')
+            pbar = manager.counter(total=  100, desc = 'Ti', unit = 'ticks')
             logging.info('VK. Filtered data was receive to create a dictionary')
             for el in result:
                 dict_photo = {'file_name': self.name_formation(result, name = el['likes']['count'], date = datetime.utcfromtimestamp(int(el['date'])).strftime('%Y-%m-%d')), # метод из класса формирует имя(включает дату в название файла или оставляет только кол-во лайков), а второй метод из библиотеки datetime, который преобразовывает дату из Unix в привычный нам формат
@@ -63,7 +66,10 @@ class VKUser:
                 logging.info("VK. Processing step %s" % i)
                 time.sleep(0.25)
                 pbar.update()
-            return list_photos
+            with open('data about uploaded photos.json', 'w') as f:
+                json_data = json.dumps(list_photos, indent = 1)
+                f.write(json_data)
+            logging.info('File with data has created')
         except KeyError:
             logging.error("VK. Received data was incorrect. Couldn't get the correct dictionary. The program is deactivated.", exc_info=True)
             return 'Не удалось найти информацию по человеку с таким id'

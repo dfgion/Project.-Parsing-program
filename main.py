@@ -5,8 +5,8 @@ import logging
 
 def main():
     VK_ID=input('Введите id в vk:\n') #Запрос ID VK
-    TOKEN_VK = "vk1.a.G0PY5pnOUM9o_yGPpTOY2Y4dJ5g2eeTUfEE07a8-05S6i7cwBEjIn70KsK4lg-MJ1DS-sAb-fHGloaFQwFDyNMDTG0saGbkqI8GTtcCaA5qiV4--xiG8cl9jVIn4WVqRJY8is14sCsEa4vdTyC6EbNZdclmlWvXzVRh3dU9AHWacbcRjYmb0AYe_VoPYHcp7"
-    TOKEN_YAN = "y0_AgAAAABjrMcYAADLWwAAAADR71LZ81AOSZ8LSAKZEgfkSrwg-oBGKhI"
+    TOKEN_VK = ""
+    TOKEN_YAN = ""
     count_photos = input('Введите количество фотографий на загрузку:\n')
     name_path = input('Введите, как вы хотите назвать папку на YandexDisk. Не используйте имена существующих папок на диске:\n')
     if VK_ID and TOKEN_VK and TOKEN_YAN and name_path: # Проверка на введение ID, token, name_path

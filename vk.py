@@ -91,7 +91,7 @@ class VKUser:
         logging.info('VK. Funtion for create correct name for value has activated')
         list_of_likes = [element['likes']['count'] for element in list] # формируется список, элементами которого являются показатели количества лайков с каждой фотографии
         help_name = name # создается переменная для грамотного удаления
-        list_of_likes.remove(help_name) # Происходит удаления значения из списка и тем самым, если такое же значени будет, то количество лайков на фотографии не уникально
+        list_of_likes.remove(help_name) # Происходит удаления значения из списка и тем самым, если такое же значение будет, то количество лайков на фотографии не уникально
         if name in list_of_likes: # Проверка условия выше
             logging.info('VL. The value has been generated and date and to name')
             return f"{name}.{date}.jpg" # Если имя не уникально, то добавляется дата

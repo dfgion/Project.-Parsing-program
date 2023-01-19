@@ -1,6 +1,6 @@
-# Курсовая работа 
+# Программа для парсинга фотографий VK
 ## Дата: 27.10.2022
 
-## [Сайт Нетологии](https://netology.ru/)
+## [Фриланс](https://freelance.habr.com/freelancers/dfgion)
 
-![](https://cifrokursy.ru/wp-content/uploads/2021/03/netology-logo1-600x600.png)
+![](https://i.imgur.com/cyvf34Q.png)

@@ -20,7 +20,7 @@ def main():
         vk.outputting_file() # Создаем json-файл с данными о фотографиях
         ya.get_photo_to_upload()  # Начинаем процесс загрузки фотографий на ЯД
     else: 
-        logging.info("MAIN. Token or vk_id or photo's count not are not detected.")
+        logging.info("MAIN. Token or vk_id or photo's count are not detected.")
 
 if __name__ == "__main__":
     main()
